@@ -3,6 +3,8 @@
 
 <% 
 String unq = request.getParameter("unq");
+String tbl = request.getParameter("tbl");
+
 if( unq==null || unq.equals("") ) {
 %>
 	<script>
@@ -12,13 +14,21 @@ if( unq==null || unq.equals("") ) {
 <%
 	return;	
 }
+
+String url = "boardDelete.jsp";
+String msg = "공지사항";
+if( tbl != null && tbl.equals("board2") ) {
+	url = "board2Delete.jsp";
+	msg = "분실물";
+}
+
 %>
 
 <!DOCTYPE html>
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>일반게시판</title>
+  <title><%=msg %></title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/board.css" />
  </head>
@@ -64,11 +74,11 @@ if( unq==null || unq.equals("") ) {
  
  <section>
 	<div class="div_title">
-		공지사항
+		<%=msg %>
 	</div>
 
 	<div class="div_agrees">
-	<form name="frm" method="post" action="boardDelete.jsp">
+	<form name="frm" method="post" action="<%=url %>">
 		<input type="hidden" name="unq" value="<%=unq %>">
 		<table class="table_member">
 			<colgroup>

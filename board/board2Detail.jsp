@@ -254,7 +254,7 @@ ResultSet rs5 = stmt.executeQuery(sql5);
 						onclick="location='boardModify.jsp?unq=<%=unq %>'">수정</button>
 			
 			<button type="button" class="button4" 
-						onclick="location='passWrite.jsp?unq=<%=unq %>'">삭제</button>
+						onclick="location='passWrite.jsp?unq=<%=unq %>&tbl=board2'">삭제</button>
 			
 			<button type="button" class="button4" 
 						onclick="location='boardList.jsp'">목록</button>
