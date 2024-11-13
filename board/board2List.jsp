@@ -5,20 +5,34 @@
 <%@ include file="../include/oracleCon.jsp" %>
 
 <%
+String code = request.getParameter("code");
 String searchField = request.getParameter("searchField");
 String searchText  = request.getParameter("searchText");
 
-String Where = ""; 
+if(code == null || (!code.equals("1") && !code.equals("2")) ) {
+	code = "1";
+}
+
+String msg = "분실물";
+if( code.equals("2") ) {
+	msg = "습득물";
+}
+
+String Where = " WHERE gubun='"+code+"' "; 
+
 if( searchText != null && !searchText.trim().equals("") ) {
 	switch(searchField) {
-	case "all"     : Where = " WHERE TITLE LIKE '%"+searchText+"%' OR CONTENT LIKE '%"+searchText+"%' ";
+	case "all"     : Where += " and TITLE LIKE '%"+searchText+"%' OR CONTENT LIKE '%"+searchText+"%' ";
 		break;
-	case "title"   : Where = " WHERE TITLE LIKE '%"+searchText+"%' ";
+	case "title"   : Where += " and TITLE LIKE '%"+searchText+"%' ";
 		break;
-	case "content" : Where = " WHERE CONTENT LIKE '%"+searchText+"%' ";
+	case "content" : Where += " and CONTENT LIKE '%"+searchText+"%' ";
 		break;
 	}
 }
+
+String search = "searchField="+searchField+"&searchText="+searchText;
+
 
 // 출력페이지 번호
 String pageNo = request.getParameter("page");
@@ -68,7 +82,7 @@ ResultSet rs2 = stmt.executeQuery(sql2);
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>일반게시판</title>
+  <title><%=msg %></title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/board.css" />
  </head>
@@ -97,7 +111,7 @@ ResultSet rs2 = stmt.executeQuery(sql2);
  <section>
 
 	<div class="div_title">
-		분실물 게시판
+		<%=msg %> 게시판
 	</div>
 
 	<div class="div_search">
@@ -137,6 +151,7 @@ ResultSet rs2 = stmt.executeQuery(sql2);
 			String writer = rs2.getString("writer");
 			String rdate = rs2.getString("rdate");
 			int hits = rs2.getInt("hits");
+			
 			if(gubun.equals("1")) {
 				gubun = "분실";	
 			} else if(gubun.equals("2")) {
@@ -166,22 +181,22 @@ ResultSet rs2 = stmt.executeQuery(sql2);
 	</table>
 	
 	<div style="margin-top:10px; text-align:right;">
-		<button type="button" class="button4" onclick="location='board2Write.jsp'">글쓰기</button>
+		<button type="button" class="button4" onclick="location='board2Write.jsp?code=<%=code %>'">글쓰기</button>
 	</div>
 	
 	<div style="margin-top:10px; text-align:center;">
-		<a href="board2List.jsp?page=1" class="num first">《 </a>
+		<a href="board2List.jsp?code=<%=code %>&page=1&<%=search %>" class="num first">《 </a>
 		<a href="#" class="num bef">〈 </a>
 		<%
 		for( int p=1; p<=lastpage; p++) {
 		%>
-			<a href="board2List.jsp?page=<%=p%>" class="num"><%=p %></a>
+			<a href="board2List.jsp?code=<%=code %>&page=<%=p%>&<%=search %>" class="num"><%=p %></a>
 		<%
 			//out.print("<a href='boardList.jsp?page="+p+"'  class=\"num\"> "+p+" </a>");
 		}
 		%>
 		<a href="#" class="num bef"> 〉</a>
-		<a href="board2List.jsp?page=<%=lastpage %>" class="num last"> 》 </a>
+		<a href="board2List.jsp?code=<%=code %>&page=<%=lastpage %>&<%=search %>" class="num last"> 》 </a>
 	
 	<!--
 		<a href="#" class="num first"> << </a>

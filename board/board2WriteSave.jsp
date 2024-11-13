@@ -20,7 +20,7 @@ if( title == null || pass == null ) {
 %>
 		<script>
 		alert("잘못된 접근입니다.");
-		location = "board2Write.jsp";
+		location = "board2Write.jsp?code=<%=gubun %>";
 		</script>
 <%
 		return;
@@ -35,7 +35,7 @@ if( title.equals("") || pass.equals("") ) {
 %>
 		<script>
 		alert("잘못된 접근입니다.");
-		location = "board2Write.jsp";
+		location = "board2Write.jsp?code=<%=gubun %>";
 		</script>
 <%
 		return;	
@@ -61,7 +61,7 @@ int result = stmt.executeUpdate(sql);
 %>
 		<script>
 		alert("저장성공!");
-		location = "board2List.jsp";
+		location = "board2List.jsp?code=<%=gubun %>";
 		</script> 
 <% 
  } else {

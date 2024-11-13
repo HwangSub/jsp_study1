@@ -48,6 +48,7 @@ stmt.executeUpdate(sql3);
             + "       ,to_char(rdate,'yyyy-mm-dd') rdate "
             + "       ,to_char(udate,'yyyy-mm-dd') udate "
             + "       ,hits "
+            + "       ,gubun "
             + "   from board2 "
 		    + "  where "
 		    + "        unq='"+unq+"'";
@@ -60,17 +61,23 @@ stmt.executeUpdate(sql3);
  String rdate     = rs.getString("rdate");
  String udate     = rs.getString("udate"); // null
  String hits      = rs.getString("hits");
+ String gubun     = rs.getString("gubun");
  
  if( udate == null ) {
 	 udate = "변경없음";
  }
+ String msg = "분실물";
+ if( gubun.equals("2") ) {
+	 msg = "습득물";
+ }
+ 
  
 //  "\n" -----> <br>
 content = content.replace("\n","<br>");
  
 String sql4 = " select " 
-			+ "     (select nvl(max(unq),0) from board2 where unq<"+unq+") bef, "
-			+ "     (select nvl(min(unq),0) from board2 where unq>"+unq+") nex  "
+			+ "     (select nvl(max(unq),0) from board2 where gubun='"+gubun+"' and unq<"+unq+") bef, "
+			+ "     (select nvl(min(unq),0) from board2 where gubun='"+gubun+"' and unq>"+unq+") nex  "
 			+ " from " 
  			+ "		dual ";
 ResultSet rs4 = stmt.executeQuery(sql4); // 메모리에 올라감
@@ -92,7 +99,7 @@ ResultSet rs5 = stmt.executeQuery(sql5);
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>일반게시판</title>
+  <title><%=msg %></title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/board.css" />
  </head>
@@ -183,7 +190,7 @@ ResultSet rs5 = stmt.executeQuery(sql5);
  <section>
 
 	<div class="div_title">
-		분실물 상세보기
+		<%=msg %> 상세보기
 	</div>
 
 	<div class="div_agrees">
@@ -252,10 +259,10 @@ ResultSet rs5 = stmt.executeQuery(sql5);
 		<div style="margin-top:10px; text-align:center;">
 			<button type="button" class="button4" 
 						onclick="location='boardModify.jsp?unq=<%=unq %>'">수정</button>
-			
+
 			<button type="button" class="button4" 
 						onclick="location='passWrite.jsp?unq=<%=unq %>&tbl=board2'">삭제</button>
-			
+
 			<button type="button" class="button4" 
 						onclick="location='boardList.jsp'">목록</button>
 		</div>

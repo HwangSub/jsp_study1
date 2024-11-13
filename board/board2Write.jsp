@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%
+String code = request.getParameter("code");
+String msg = "분실물";
+if( code != null && code.equals("2") ) {
+	msg = "습득물";
+}
+%>
+
 <!DOCTYPE html>
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>분실물</title>
+  <title><%=msg %></title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/board.css" />
  </head>
@@ -56,7 +64,7 @@
  
  <section>
 	<div class="div_title">
-		분실물
+		<%=msg %>
 	</div>
 	<div class="div_agrees">
 	<form name="frm" method="post" action="board2WriteSave.jsp">
@@ -80,8 +88,10 @@
 			<tr>
 				<th>구분</th>
 				<td>
-					<input type="radio" name="gubun" value="1" checked>분실물
-					<input type="radio" name="gubun" value="2">습득물
+					<input type="radio" name="gubun" value="1" 
+					<%if(code.equals("1")){ out.print("checked"); } %>>분실물
+					<input type="radio" name="gubun" value="2" 
+					<%if(code.equals("2")){ out.print("checked"); } %>>습득물
 				</td>
 			</tr>
 			<tr>
