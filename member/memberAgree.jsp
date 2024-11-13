@@ -77,7 +77,7 @@
 		alert("전체 체크를 해주세요.");
 		return false;
 	}
-	location = "memberWrite.html";
+	location = "memberWrite.jsp";
  }
  
  </script>
