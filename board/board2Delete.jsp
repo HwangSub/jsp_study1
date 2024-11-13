@@ -9,7 +9,8 @@
 <%
  String unq = request.getParameter("unq");
  String pass = request.getParameter("pass");
-
+ String code = request.getParameter("code");
+ 
 if( unq==null || pass==null || unq.equals("") || pass.equals("") ) {
 %>
 	<script>
@@ -42,7 +43,7 @@ if(result == 1) {
 %>
 		<script>
 		alert("삭제성공!");
-		location = "board2List.jsp";
+		location = "board2List.jsp?code=<%=code %>";
 		</script> 
 <%
 } else {

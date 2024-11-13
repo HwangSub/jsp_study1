@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
-String code = request.getParameter("code");
-String msg = "분실물";
-if( code != null && code.equals("2") ) {
-	msg = "습득물";
-}
-%>
+<%@ include file="../include/code.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,8 +84,12 @@ if( code != null && code.equals("2") ) {
 				<td>
 					<input type="radio" name="gubun" value="1" 
 					<%if(code.equals("1")){ out.print("checked"); } %>>분실물
+					
 					<input type="radio" name="gubun" value="2" 
 					<%if(code.equals("2")){ out.print("checked"); } %>>습득물
+					
+					<input type="radio" name="gubun" value="3" 
+					<%if(code.equals("3")){ out.print("checked"); } %>>보관함
 				</td>
 			</tr>
 			<tr>

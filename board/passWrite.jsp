@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ include file="../include/code.jsp" %>
+
 <% 
 String unq = request.getParameter("unq");
 String tbl = request.getParameter("tbl");
@@ -13,13 +15,6 @@ if( unq==null || unq.equals("") ) {
 	</script>
 <%
 	return;	
-}
-
-String url = "boardDelete.jsp";
-String msg = "공지사항";
-if( tbl != null && tbl.equals("board2") ) {
-	url = "board2Delete.jsp";
-	msg = "분실물";
 }
 
 %>
@@ -43,7 +38,7 @@ if( tbl != null && tbl.equals("board2") ) {
 	 document.frm.submit();
  }
  </script>
-
+             
  <style>
   td {
   	text-align:left;
@@ -76,10 +71,12 @@ if( tbl != null && tbl.equals("board2") ) {
 	<div class="div_title">
 		<%=msg %>
 	</div>
-
+ 
 	<div class="div_agrees">
-	<form name="frm" method="post" action="<%=url %>">
+	<form name="frm" method="post" action="<%=url1 %>">
 		<input type="hidden" name="unq" value="<%=unq %>">
+		<input type="hidden" name="code" value="<%=code %>">
+		
 		<table class="table_member">
 			<colgroup>
 				<col width="20%"/>

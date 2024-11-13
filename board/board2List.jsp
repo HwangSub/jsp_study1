@@ -3,20 +3,11 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="../include/oracleCon.jsp" %>
+<%@ include file="../include/code.jsp" %>
 
 <%
-String code = request.getParameter("code");
 String searchField = request.getParameter("searchField");
 String searchText  = request.getParameter("searchText");
-
-if(code == null || (!code.equals("1") && !code.equals("2")) ) {
-	code = "1";
-}
-
-String msg = "분실물";
-if( code.equals("2") ) {
-	msg = "습득물";
-}
 
 String Where = " WHERE gubun='"+code+"' "; 
 
@@ -151,24 +142,17 @@ ResultSet rs2 = stmt.executeQuery(sql2);
 			String writer = rs2.getString("writer");
 			String rdate = rs2.getString("rdate");
 			int hits = rs2.getInt("hits");
-			
-			if(gubun.equals("1")) {
-				gubun = "분실";	
-			} else if(gubun.equals("2")) {
-				gubun = "습득";
-			}
-			
+
 			String sql3 = "select count(*) from board2sub where punq='"+unq+"'";
 			ResultSet rs3 = stmt2.executeQuery(sql3);
 			rs3.next();
 			int cnt = rs3.getInt(1);
-			
 		%>
 		<tr>
 			<td><%=rownum %></td>
-			<td><%=gubun %></td>
+			<td><%=msg %></td>
 			<td style="text-align:left;">
-				<a href="board2Detail.jsp?unq=<%=unq %>"><%=title %></a>
+				<a href="board2Detail.jsp?code=<%=code %>&unq=<%=unq %>"><%=title %></a>
 				(<%=cnt %>)
 			</td>
 			<td><%=rdate %></td>

@@ -4,6 +4,7 @@
 
 <!-- DB연결 -->
 <%@ include file="../include/oracleCon.jsp" %>
+<%@ include file="../include/code.jsp" %>
 
 <!-- 파라메터(unq) 설정 -->
 <%
@@ -66,11 +67,6 @@ stmt.executeUpdate(sql3);
  if( udate == null ) {
 	 udate = "변경없음";
  }
- String msg = "분실물";
- if( gubun.equals("2") ) {
-	 msg = "습득물";
- }
- 
  
 //  "\n" -----> <br>
 content = content.replace("\n","<br>");
@@ -87,6 +83,7 @@ int bef_unq = rs4.getInt(1);
 int nex_unq = rs4.getInt(2);
 
 
+// 댓글 출력 SQL
 String sql5 = " select unq,content,to_char(rdate,'yy.mm.dd')rdate,lev "
 			+ "   from board2sub "
 			+ "  where punq='"+unq+"'";
@@ -258,13 +255,13 @@ ResultSet rs5 = stmt.executeQuery(sql5);
 
 		<div style="margin-top:10px; text-align:center;">
 			<button type="button" class="button4" 
-						onclick="location='boardModify.jsp?unq=<%=unq %>'">수정</button>
+						onclick="location='board2Modify.jsp?unq=<%=unq %>&code=<%=code %>'">수정</button>
 
 			<button type="button" class="button4" 
-						onclick="location='passWrite.jsp?unq=<%=unq %>&tbl=board2'">삭제</button>
+						onclick="location='passWrite.jsp?unq=<%=unq %>&tbl=board2&code=<%=code%>'">삭제</button>
 
 			<button type="button" class="button4" 
-						onclick="location='boardList.jsp'">목록</button>
+						onclick="location='board2List.jsp?code=<%=code %>'">목록</button>
 		</div>
 		
 		<p></p>
