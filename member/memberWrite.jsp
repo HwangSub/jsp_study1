@@ -85,9 +85,13 @@
 		<tr>
 			<td>*연락처</td>
 			<td>
-				<input type="text" name="mobile1" class="input3"> - 
-				<input type="text" name="mobile2" class="input3"> - 
-				<input type="text" name="mobile3" class="input3">
+				<select name="tel1" class="input3"> 
+					<option value="010">010</option>
+					<option value="011">011</option>
+				</select>
+				- 
+				<input type="number" name="tel2" class="input3" maxlength="4"> - 
+				<input type="number" name="tel3" class="input3" maxlength="4">
 			</td>
 		</tr>
 		<tr>
@@ -106,11 +110,11 @@
 		<tr>
 			<td>주소</td>
 			<td>
-				<input type="text" name="zipcode" id="zipcode" class="input3">
+				<input type="text" name="post" id="zipcode" class="input3" placeholder="우편번호">
 				<input type="button" onclick="postcode()" class="button2" value="우편번호 찾기">
 				<br>
-				<input type="text" name="addr1" id="addr1" class="input2"><br>
-				<input type="text" name="addr2" id="addr2" class="input2"><br>
+				<input type="text" name="addr1" id="addr1" class="input2" placeholder="일반주소"><br>
+				<input type="text" name="addr2" id="addr2" class="input2" placeholder="상세주소"><br>
 			</td>
 		</tr>
 		
@@ -127,8 +131,8 @@
 		<tr>
 			<td colspan="2">
 			내용은 수신동의 여부와 관계없이 발송됩니다.
-			<input type="checkbox" name=""> 이메일
-			<input type="checkbox" name=""> 문자
+			<input type="checkbox" name="mailyn" value="Y"> 이메일
+			<input type="checkbox" name="smsyn" value="Y"> 문자
 			</td>
 		</tr>
 		<tr>
@@ -146,8 +150,9 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">
-			<button type="button" class="button1" onclick="fn_submit()">저장하기</button>
+			<td colspan="2" height="100" align="center">
+			<button type="button" class="button1" 
+							onclick="fn_submit()">저장하기</button>
 			</td>
 		</tr>
 
