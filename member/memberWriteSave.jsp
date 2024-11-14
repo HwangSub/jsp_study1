@@ -1,3 +1,4 @@
+<%@page import="java.sql.ResultSet"%>
 <%@ page import="java.util.logging.Logger"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -24,6 +25,34 @@ String addr1   	= request.getParameter("addr1");
 String addr2   	= request.getParameter("addr2");
 String mailyn   = request.getParameter("mailyn");
 String smsyn   	= request.getParameter("smsyn");
+
+// 아이디, 암호, 이름, 연락처, 이메일
+if( userid == null || pass == null || name == null ||
+	tel1 == null   || tel2 == null || tel3 == null ) 
+{
+%>
+		<script>
+		alert("데이터를 다시확인해주세요.!");
+		location = "memberWrite.jsp";
+		</script>
+<%
+		return;
+}
+
+// 아이디 중복체크
+String sql2 = "SELECT COUNT(*) FROM MEMBER WHERE id='"+userid+"'";
+ResultSet rs2 = stmt.executeQuery(sql2);
+rs2.next();
+int cnt = rs2.getInt(1);
+if( cnt == 1 ) {
+%>
+		<script>
+		alert("이미 사용중인 아이디입니다.!");
+		history.back();
+		</script>
+<%
+		return;
+}
 %>
 
 <!-- 데이터편집 
@@ -71,8 +100,8 @@ String sql  = "INSERT INTO member( "
 					+"	,sysdate  )";
 int result = stmt.executeUpdate(sql);
 
-//System.out.println(sql);
-//log.info("userid :: " + userid);
+System.out.println(sql);
+log.info("userid :: " + userid);
 
 if( result == 1 ) {
 %>

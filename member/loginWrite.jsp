@@ -194,11 +194,11 @@
 	</div>
 
 	<div class="div_agrees">
-	
+	<form name="frm" method="post" action="loginSession.jsp">
 	<table class="table_member" align="center">
 		<tr>
 			<td>
-			<span class="span_id">ID</span><input type="text" name="userid" class="input_id"  placeholder="아이디를 입력하세요.">
+			<span class="span_id">ID</span><input type="text" name="id" class="input_id"  placeholder="아이디를 입력하세요.">
 			</td>
 		</tr>
 		<tr>
@@ -247,7 +247,7 @@
 		</tr>
 
 	</table>
-	
+	</form>
 	</div>
 
  </section>

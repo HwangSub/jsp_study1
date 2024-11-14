@@ -13,6 +13,10 @@
   <script type="text/javascript" src="/js/memberWrite.js"></script> 
  </head>
  
+ <script>
+  console.log("~~~ 회원정보 등록화면 ~~~");
+ </script>
+ 
  <body>
   
  <header>
