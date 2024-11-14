@@ -151,8 +151,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" height="100" align="center">
-			<button type="button" class="button1" 
-							onclick="fn_submit()">저장하기</button>
+			<button type="button" class="button1" onclick="fn_submit()">저장하기</button>
 			</td>
 		</tr>
 
