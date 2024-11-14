@@ -36,7 +36,8 @@ function fn_submit() {
 		document.frm.pass.focus();
 		return false;
 	}
-	
+
+	document.frm.submit();
  
  }
  
