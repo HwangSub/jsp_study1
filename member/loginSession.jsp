@@ -7,6 +7,7 @@
 <%
  String id = request.getParameter("id");
  String pass = request.getParameter("pass");
+ 
  if( id == null || pass == null ) {
 %>
 		<script>
