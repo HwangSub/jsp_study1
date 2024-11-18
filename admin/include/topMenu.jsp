@@ -2,7 +2,12 @@
     pageEncoding="UTF-8"%>
     
 <%
-String SESSION_ID = (String) session.getAttribute("sessionId");
+String SESSION_ID = (String) session.getAttribute("AdminSessionId");
+
+if(SESSION_ID == null) {
+	response.sendRedirect("/admin/login.jsp");
+	return;
+}
 %>
     
 <!DOCTYPE html>
@@ -13,25 +18,10 @@ String SESSION_ID = (String) session.getAttribute("sessionId");
 </head>
 <body>
 	  <ul>
-		<li class="menu_li"><a href="../main/main.jsp">홈</a></li>
-		
-		<%
-		if(SESSION_ID == null) {
-		%>
-		<li class="menu_li"><a href="../member/memberAgree.jsp">회원가입</a></li>
-		<li class="menu_li"><a href="../member/loginWrite.jsp">로그인</a></li>
-		<%
-		} else {
-		%>
-		<li class="menu_li"><a href="../member/memberModify.jsp">정보수정</a></li>
-		<li class="menu_li"><a href="../member/logout.jsp">로그아웃</a></li>
-		<%
-		}
-		%>
-		
-		<li class="menu_li"><a href="../board/boardList.jsp">게시판</a></li>
-		<li class="menu_li"><a href="../emp/history.jsp">이력서</a></li>
-		<li class="menu_li"><a href="../member/postList.jsp">주소검색</a></li>
+		<li class="menu_li"><a href="/admin">홈</a></li>
+		<li class="menu_li"><a href="/admin/memberList.jsp">회원관리</a></li>
+		<li class="menu_li"><a href="/admin/boardList.jsp">공지사항관리</a></li>
+		<li class="menu_li"><a href="/admin/reBoardList.jsp">댓글게시판관리</a></li>
 	  </ul>
 </body>
 </html>
