@@ -8,5 +8,6 @@
 </head>
 <body>
 footer 영역
+<a href="/admin/login.jsp">&nbsp;&nbsp;&nbsp;</a>
 </body>
 </html>
