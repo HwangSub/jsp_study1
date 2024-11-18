@@ -1,16 +1,44 @@
+<%@page import="java.util.Calendar"%>
+<%@ page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ include file="../include/oracleCon.jsp" %>
+
+<%
+String id = request.getParameter("id");
+String nm = request.getParameter("name");
+String tel = request.getParameter("tel");
+
+Calendar cal = Calendar.getInstance();
+long unix = cal.getTimeInMillis()/1000;
+
+String msg = "";
+if( id != null && nm != null && tel != null ) {
+	
+	msg = "검색된 내용이 없습니다.";
+	
+	String sql = " SELECT count(*) FROM MEMBER "
+			   + "  WHERE ID='"+id+"' AND NAME='"+nm+"' AND TEL='"+tel+"' ";
+	ResultSet rs = stmt.executeQuery(sql);
+	rs.next();
+	if( rs.getInt(1) > 0 ) {
+		 String sql1 = " UPDATE member SET pass='"+unix+"' WHERE ID='"+id+"' ";
+		 stmt.executeUpdate(sql1);
+		 msg = "임시패스워드 : " + unix;
+	}
+}
+%>
 
 <!DOCTYPE html>
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>비밀번호 찾기</title>
   <link rel="stylesheet" href="../css/style.css" />
  </head>
 
  <style>
- 
  .div_title {
 	position:relative;
 	left:30px;
@@ -32,7 +60,6 @@
 	font-size:12px;
 	line-height:3.0;
  }
- 
  .button1 {
 	width:200px;
 	padding:10px;
@@ -59,7 +86,6 @@
  .button1:active {
 	background-color:#ffff00;
  }
- 
  .button2 {
 	width:100px;
 	padding:8px;
@@ -70,7 +96,6 @@
 	border:0px;
 	cursor:pointer; /*help,progress,wait,cell,pointer*/
  }
- 
  .button3 {
 	width:70px;
 	padding:8px;
@@ -190,43 +215,36 @@
  <section>
 
 	<div class="div_title">
-		로그인
+		비밀번호 찾기
 	</div>
 
 	<div class="div_agrees">
-	<form name="frm" method="post" action="loginSession.jsp">
+	<form name="frm" method="post" action="<%=request.getRequestURI() %>">
 	<table class="table_member" align="center">
 		<tr>
 			<td>
-			<span class="span_id">ID</span><input type="text" name="id" class="input_id"  placeholder="아이디를 입력하세요.">
+			<span class="span_id">아이디</span>
+			<input type="text" name="id" class="input_id"  placeholder="아이디를 입력하세요.">
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<span class="span_id">pw</span><input type="password" name="pass" class="input_id" placeholder="비밀번호를 입력하세요." style="width:295px;">
+			<span class="span_id">이름</span>
+			<input type="text" name="name" class="input_id"  placeholder="이름을 입력하세요.">
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<span class="span_id">연락처</span>
+			<input type="text" name="tel" class="input_id" placeholder="연락처를 입력하세요." style="width:295px;">
 			</td>
 		</tr>
 		<tr>
 			<td valign="middle">
 			<button type="submit" class="btn_submit">
 				<span class="span_login"><img src="../images/login_img1.PNG"></span>
-				<span class="span_login_txt">로그인</span>
+				<span class="span_login_txt">비밀번호찾기</span>
 			</button>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<button type="button" class="btn_submit" style="margin-top:-20px;">
-				<span class="span_login" style="left:-70px;"><img src="../images/login_img2.PNG"></span>
-				<span class="span_login_txt" style="font-size:14px;">
-					<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=OBEC7aY268pfOvZ94CGi&state=df1500fc08c923289a94abf5eafc54b6&redirect_url=https%3A%2F%2Fwww.dothome.co.kr%2Flogin_naver_check.php" target="_blank" >네이버 아이디로 로그인</a>
-				</span>
-			</button>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<input type="checkbox" name="chk"> 아이디저장
 			</td>
 		</tr>
 		<tr>
@@ -234,19 +252,11 @@
 			<hr>
 			</td>
 		</tr>
-		<tr>
-			<td>
-			<button type="button" class="btn_search" onclick="location='idSearch.jsp'">아이디찾기</button>
-			<span>│</span>
-			<button type="button" class="btn_search" onclick="location='pwSearch.jsp'">비밀번호찾기</button>
-			<span>│</span>
-			<button type="button" class="btn_search">
-				<a href="memberAgree.jsp">회원가입</a>
-			</button>
-			</td>
-		</tr>
-
 	</table>
+	
+	<div style="width:100%; text-align:center;">
+		<%=msg %>
+	</div>
 	</form>
 	</div>
 

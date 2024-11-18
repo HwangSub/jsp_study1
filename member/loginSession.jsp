@@ -31,7 +31,7 @@
 		return;
  }
 
- // 세션변수 생성
+// 세션변수 생성
  session.setAttribute("sessionId", id); 
 // String sessionId = id;
 %>
@@ -39,10 +39,3 @@
 	alert("<%=id%>님 환영합니다.");
 	location="../main/main.jsp";
 	</script>
-
-
-
-
-
-
-
