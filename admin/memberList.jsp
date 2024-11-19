@@ -3,6 +3,20 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="../include/oracleCon.jsp" %>
+
+<%
+ String searchField = request.getParameter("searchField");
+ String searchText  = request.getParameter("searchText");
+ 
+ String Search = "";
+ if( searchText != null ) {
+	 searchText = searchText.trim();
+	 if( !searchText.equals("") ) {
+		 Search = " AND "+searchField+"='"+searchText+"' ";
+	 }
+ } 
+%>
+
 <%
 /*
 select  id
@@ -13,28 +27,53 @@ select  id
       member
 */
 
+String page1 = request.getParameter("page");
+if(page1 == null) {
+	page1 = "1";
+}
+// 출력(현)페이지번호
+int pageNo = Integer.parseInt(page1);
+
+//화면의 출력 단위
+int unit = 2; 
 
 String sql1 = "SELECT COUNT(*) FROM MEMBER";
 ResultSet rs1 = stmt.executeQuery(sql1);
+rs1.next();
+// 총 데이터 개수
+int total = rs1.getInt(1);
 
-String sql2 = " SELECT 	 UNQ     "
-			+ "			,ID      "
-			+ "			,PASS    "
-			+ "			,NAME    "
-			+ "			,TEL     "
-			+ "			,MAIL    "
-			+ "			,POST    "
-			+ "			,ADDR1   "
-			+ "			,ADDR2   "
-			+ "			,MAILYN  "
-			+ "			,SMSYN   "
-			+ "			,RDATE   "
-			+ "   FROM  MEMBER   ";
+// 총 페이지 개수
+int totalPage = (int)Math.ceil((double)total/unit);
+
+// 출력페이지의 시작 행번호 세팅
+int rownumber = total - (pageNo-1)*unit;
+
+//SQL에 적용할 시작번호
+int sno = (pageNo-1)*unit + 1;
+//SQL에 적용할 마지막번호
+int eno = sno+(unit-1);
+
+String sql2 = " SELECT B.* FROM ("
+            + " 	SELECT ROWNUM RN,A.* FROM ( "
+            + " 		SELECT 	 UNQ     "
+			+ "					,ID      "
+			+ "					,PASS    "
+			+ "					,NAME    "
+			+ "					,TEL     "
+			+ "					,MAIL    "
+			+ "					,POST    "
+			+ "					,ADDR1   "
+			+ "					,ADDR2   "
+			+ "					,MAILYN  "
+			+ "					,SMSYN   "
+			+ "					,RDATE   "
+			+ "   		FROM  MEMBER   "
+			+ "	 	   WHERE 1=1 " + Search + " ) A ) B "
+			+ " WHERE RN>="+sno+" AND RN<="+eno;
 ResultSet rs2 = stmt.executeQuery(sql2);
 
 %>
-
-
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -64,7 +103,17 @@ ResultSet rs2 = stmt.executeQuery(sql2);
  <section>
 	 
 	 <div style="margin-left:20px; margin-top:20px;">
-	 <table border="1" width="800">
+	 <form name="searchForm" method="post" action="<%=request.getRequestURI() %>">
+	 	<select name="searchField">
+	 		<option value="id">아이디</option>
+	 		<option value="name">이름</option>
+	 		<option value="tel">연락처</option>
+	 	</select>
+	 	<input type="text" name="searchText">
+	 	<button type="submit">검색</button>
+	 </form>
+	 
+	 <table border="1" width="800" style="margin-top:10px;">
 	 	<tr>
 	 		<th>번호</th>
 	 		<th>아이디</th>
@@ -99,7 +148,7 @@ ResultSet rs2 = stmt.executeQuery(sql2);
 			// 년/월/일 시간들
 		%>
 	 	<tr align="center">
-	 		<td>100</td>
+	 		<td><%=rownumber %></td>
 	 		<td><%=id %></td>
 	 		<td><%=name %></td>
 	 		<td><%=tel %></td>
@@ -108,10 +157,22 @@ ResultSet rs2 = stmt.executeQuery(sql2);
 	 		<td><%=rdate %></td>
 	 	</tr>
 	 	<%
+	 		rownumber--;
 		}
 	 	%>
 	 
 	 </table>
+	 
+	 	<div>
+	 		<%
+	 		for(int p=1; p<=totalPage; p++) {
+	 		%>
+	 			<a href="<%=request.getRequestURI() %>?page=<%=p %>"><%=p %></a>
+	 		<%
+	 		}
+	 		%>
+	 	</div>
+	 
 	 
 	 </div>
 	 
