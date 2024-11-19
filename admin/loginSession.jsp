@@ -30,8 +30,4 @@ session.setAttribute("AdminSessionLevel", lv);
 		</script>
 
 
-
-
-
-
-    
+  
